@@ -6,17 +6,24 @@
 #define PPL 100
 #define SPERRE 99999
 
-void dijkstra_algo(int contact[PPL][PPL], int patient_null)
+
+
+
+int dijkstra_algo(int contact[PPL][PPL], int patient_null)
 {
     int contmin[PPL][PPL]; //Kontaktminute zwischen zwei Personen
     int pred[PPL];         //Vorgaenger, bei dem man zuvor war
-    int mintime[PPL];      //das Minimum an Zeit bei Kontakt
+    int mintime[PPL];      //das Minuten an Zeit bei Kontakt
     int visited[PPL];      //welche Nodes schon besucht wurden
     int counted;           //die Zahl der Kontakte, welche bereits gecheckt wurden
     int nextpers;
     int maxtime;
     int i;
     int j;
+    int conID;
+    int pers_a;
+    int pers_b;
+    int min;
 
     for(i=0; i<PPL; i++)    //erstmal beide Matrizen mit 0 initialisieren
     {
@@ -26,8 +33,27 @@ void dijkstra_algo(int contact[PPL][PPL], int patient_null)
             contmin[i][j] = contact[i][j];
         }
     }
+    FILE* interaction;
+    interaction = fopen("interactions.csv","r");
+    if(interaction == NULL)
+    {
+        printf("Datei nicht gefunden!");
+        return -1;
+    }
+    while(fscanf(interaction,"%d | %d | %d | %d", &conID, &pers_a, &pers_b, &min)!=EOF)
+    {
+        contmin[pers_a][pers_b]=min;
+        contmin[pers_b][pers_a]=contmin[pers_a][pers_b];
+        printf("%d | %d | %d | %d\n", conID, pers_a, pers_b, min);
 
-    for (i=0; i<PPL; i++)
+    }
+    contact = contmin;
+
+    printf("%d", contmin[80][40]);
+    fclose(interaction);
+
+
+    /*for (i=0; i<PPL; i++)           //initialisieren minuten an Zeit bei Kontakt
     {
         mintime[i] = contmin[patient_null][i];
         pred[i] = patient_null;
@@ -39,50 +65,58 @@ void dijkstra_algo(int contact[PPL][PPL], int patient_null)
     counted = 1;
 
 
-while(counted<PPL-1)
-{
-    maxtime=SPERRE;
-
-    for(i=0; i<PPL; i++)     //nextpers gibt die Person weiter mit der höchsten Minutenzahl
+    while(counted<PPL-1)
     {
-        if(mintime[i]< maxtime && !visited[i])
+        maxtime=SPERRE;
+
+        for(i=0; i<PPL; i++)     //nextpers gibt die Person weiter mit der hÃ¶chsten Minutenzahl
         {
-            maxtime=mintime[i];
-            nextpers=i;
-        }
+            if(mintime[i]> maxtime && !visited[i])
+            {
+                maxtime=mintime[i];
+                nextpers=i;
+            }
 
-        visited[nextpers]=1;
+            visited[nextpers]=1;
 
-        for(i=0; i<PPL; i++)
-        {
-            if(!visited[i])
-                if(maxtime+contmin[nextpers][i]<mintime[i])
-                {
-                    mintime[i]=maxtime+contmin[nextpers][i];
-                    pred[i]= nextpers;
-                }
+            for(i=0; i<PPL; i++)
+            {
+                if(!visited[i])
+                    if(maxtime+contmin[nextpers][i]>mintime[i])
+                    {
+                        mintime[i]=maxtime+contmin[nextpers][i];
+                        pred[i]= nextpers;
+                    }
 
-            counted++;
+                counted++;
+            }
         }
     }
-}
 //print the path and minute of each person
-	for(i=0;i<PPL;i++)
-		if(i!=patient_null)
-		{
-			printf("\nMinute of Person%d=%d", i, mintime[i]);
-			printf("\nPath=%d",i);
+    for(i=0; i<PPL; i++)
+        if(i!=patient_null)
+        {
+            printf("\nMinute of Person%d=%d", i, mintime[i]);
+            printf("\nPath=%d",i);
 
-			j=i;
-			do
-			{
-				j=pred[j];
-				printf("<-%d",j);
-			}while(j!=patient_null);
-	}
+            j=i;
+            do
+            {
+                j=pred[j];
+                printf("<-%d",j);
+            }
+            while(j!=patient_null);
+        }*/
 }
 int main()
 {
+
+    int erstpers;
+    int infect[PPL][PPL];
+
+    dijkstra_algo(infect, erstpers);
+
+    int i,j;
 
     return 0;
 }
