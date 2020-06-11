@@ -1,5 +1,4 @@
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -49,10 +48,10 @@ int dijkstra_algo(int contact[PPL][PPL], int patient_null)
     {
         contmin[pers_a][pers_b]=min;
         contmin[pers_b][pers_a]=contmin[pers_a][pers_b];
-        //printf("%3d | %3d | %3d | %4d\n", conID, pers_a, pers_b, min);
+
 
     }
-//printf("%d",contmin[52][]);
+
     contact = contmin;
 
     fclose(interaction);
@@ -62,116 +61,37 @@ int dijkstra_algo(int contact[PPL][PPL], int patient_null)
         visited[i]=0;
     }
 
-/*
-for(i=1; i<=PPL; i++) //alle nicht besuchte nodes sind auf 0 initialisiert visited[]=0
-{
-    mintime[i]=mintime[i-1];
-    if(mintime[i]<contmin[patient_null][i])
-    {
-        //printf("IF min time %d\n", mintime[i]);
-        v=i;
-        mintime[i]=contmin[patient_null][v];
-        //printf("AFTER min time %d\n", mintime[i]);
 
-    }
-}*/
-for(j=1; j<=PPL; j++)
-{
-    for(i=1; i<PPL; i++) //alle nicht besuchte nodes sind auf 0 initialisiert visited[]=0
-    {
-        mintime[i]=mintime[i-1];
-        if(mintime[i]<contmin[patient_null][i] && visited[i]==0)
-        {
-            //printf("IF min time %d\n", mintime[i]);
-            v=i;
-            mintime[i]=contmin[patient_null][v];
-            //printf("AFTER min time %d\n", mintime[i]);
-
-        }
-    }
-    printf("%d -> %d\n",patient_null, v);
-    printf("%d_\n", mintime[v]);
-    visited[patient_null]=1;
-    visited[v]=1;
-    patient_null = v;
-
-
-}
-printf("ENDE %d\n", v);
-printf("ENDE %d_\n", mintime[v]);
-
-//printf("%d\n", v);
-//printf("%d_\n", mintime[v]);
-
-//hier setze alles auf 0
-//visited[patient_null]=1;
-//mintime[patient_null]=0;
-//printf("%d", visited[patient_null]);
-
-/*for(j=2; j<=PPL; j++)
-{
-
-
-    for(i=1; i<=PPL; i++) //alle nicht besuchte nodes sind auf 0 initialisiert visited[]=0
-    {
-        mintime[i]=mintime[i-1];
-        if(mintime[i]<contmin[patient_null][i] && visited[i]==0)
-        {
-            printf("IF min time %d\n", mintime[i]);
-            v=i;
-            mintime[i]=contmin[patient_null][v];
-            //visited[v]=1;
-            printf("AFTER min time %d\n", mintime[i]);
-        }
-        visited[v]=1;
-        for(i=1; i<=KANTEN;i++)
-        {
-
-                if(mintime[v]+contmin[v][i]>mintime[i])
-                {
-                    mintime[j]=contmin[v][i]+mintime[v];
-                }
-
-        }
-    }
-}*/
-//printf("%d\n", v);
-//printf("%d_\n", mintime[v]);
-
-//HIER DRUNTER IST IRGENDWO DER FEHLER
-
-/*
-for(i=2; i<=PPL; i++)
-{
-printf("test %d", contmin[patient_null][i]);
     for(j=1; j<=PPL; j++)
     {
-        if(mintime[j]<contmin[patient_null][i] && visited[j]==0)
+        for(i=1; i<PPL; i++) //alle nicht besuchte nodes sind auf 0 initialisiert visited[]=0
         {
-            contmin[patient_null][i]=mintime[j];
-            v=j;
-        }
-        visited[v]=1;
-        for(j=1; j<=KANTEN; j++)
-        {
-            if(mintime[v]+contmin[v][j]>mintime[j])
+            mintime[i]=mintime[i-1];
+            if(mintime[i]<contmin[patient_null][i] && visited[i]==0)
             {
-                mintime[j]=contmin[v][j]+mintime[v];
+                //printf("IF min time %d\n", mintime[i]);
+                v=i;
+                mintime[i]=contmin[patient_null][v];
+                //printf("AFTER min time %d\n", mintime[i]);
+
             }
         }
-    }
-}
-//printf("%d", mintime[j]);
-printf("\nDie Uebertragung der Krankheit ueber den Personen findet wie folgt statt:\n");
-for(i=1; i<=KANTEN; i++)
-{
-  if(i!=patient_null)
-  {
-      printf("%d\n", contmin[i]);
-  }
-}
+        printf("Die Uebertragung der Krankheit ueber den Personen findet wie folgt statt: %d -> %d\n",patient_null, v);
+        printf("Sie hatten %d Minuten miteinander Kontakt.\n", mintime[v]);
+        visited[patient_null]=1;
+        visited[v]=1;
+        patient_null = v;
 
-*/
+        if(mintime[v]==0)
+        {
+            break;
+        }
+
+    }
+    printf("Letzte infizierte Peron ID %d\n", v);
+
+
+
 }
 
 int main()
@@ -189,4 +109,3 @@ int main()
 
     return 0;
 }
-
