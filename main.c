@@ -55,80 +55,83 @@ int dijkstra_algo(int contact[PPL][PPL], int patient_null)
 
     fclose(interaction);
 
-for(i=1; i<=PPL; i++) //alle nicht besuchte nodes sind auf 0 initialisiert visited[]=0
-{
-    visited[i]=0;
-    mintime[i]=0;
-    //printf("%d\n", mintime[i]);
 
-    if(mintime[i]<contmin[patient_null][i])
+    for(i=0; i<=KANTEN; i++)
     {
-        v=i;
-        mintime[i]=contmin[patient_null][v];
+        mintime[i]=0;
+        visited[i]=0;
+    }
+
+
+
+    for(i=1; i<=PPL; i++) //alle nicht besuchte nodes sind auf 0 initialisiert visited[]=0
+    {
+
+        mintime[i]=mintime[i-1];
+        //printf("%d\n", mintime[i]);
+
+        if(mintime[i]<contmin[patient_null][i]&&visited[i]==0)
+        {
+            v=i;
+            mintime[i]=contmin[patient_null][v];
+            visited[v]=1;
+            printf("%d -> %d = %d Minuten am Tag verbracht\n",patient_null, v, mintime[v]);
+        }
 
     }
 
-}
-
-printf("%d\n", v);
-printf("%d_\n", mintime[v]);
+    //printf("%d -> %d = %d Minuten am Tag verbracht\n",patient_null, v, mintime[v]);
+    //printf("%d_\n", mintime[v]);
 
 //hier setze alles auf 0
-visited[patient_null]=1;
-mintime[patient_null]=0;
+    visited[patient_null]=1;
+    mintime[patient_null]=0;
 //printf("%d", visited[patient_null]);
 
 
 
 //HIER DRUNTER IST IRGENDWO DER FEHLER
 
-/*for(i=0; i<=PPL; i++)
-{
-    if(mintime[patient_null]<contmin[patient_null][i])
+    /*for(i=0; i<=PPL; i++)
     {
-        //printf("\n\n%d\n\n", mintime[patient_null]);
-        mintime[patient_null]=contmin[patient_null][i];
-        //printf("%d\n", mintime[patient_null]);
-        patient_null=i;
-
-
-    }
-
-}
-
-for( i=2; i<=PPL; i++)
-{
-
-printf("%d", contmin[patient_null][i]);
-
-    for(j=1; j<=PPL; j++)
-    {
-        if(mintime[j]<contmin[patient_null][i] && visited[j]==0)
+        if(mintime[patient_null]<contmin[patient_null][i])
         {
-            contmin[patient_null][i]=mintime[j];
-            v=j;
+            //printf("\n\n%d\n\n", mintime[patient_null]);
+            mintime[patient_null]=contmin[patient_null][i];
+            //printf("%d\n", mintime[patient_null]);
+            patient_null=i;
         }
-        visited[v]=1;
-        printf("%d",maxtime);
-
-        for(j=1; j<=KANTEN; j++)
+    }
+    for( i=2; i<=PPL; i++)
+    {
+    printf("%d", contmin[patient_null][i]);
+        for(j=1; j<=PPL; j++)
         {
-            if(mintime[v]+contmin[v][j]>mintime[j])
+            if(mintime[j]<contmin[patient_null][i] && visited[j]==0)
             {
-                mintime[j]=contmin[v][j]+mintime[v];
+                contmin[patient_null][i]=mintime[j];
+                v=j;
+            }
+            visited[v]=1;
+            printf("%d",maxtime);
+            for(j=1; j<=KANTEN; j++)
+            {
+                if(mintime[v]+contmin[v][j]>mintime[j])
+                {
+                    mintime[j]=contmin[v][j]+mintime[v];
+                }
             }
         }
     }
-}
-//printf("%d", mintime[j]);
-/*printf("\nDie Uebertragung der Krankheit ueber den Personen findet wie folgt statt:\n");
-for(i=1; i<=KANTEN; i++)
-{
-  if(i!=patient_null)
-  {
-      printf("%d->%d\n", patient_null, i);
-  }
-}*/
+    //printf("%d", mintime[j]);
+    /*printf("\nDie Uebertragung der Krankheit ueber den Personen findet wie folgt statt:\n");
+    for(i=1; i<=KANTEN; i++)
+    {
+      if(i!=patient_null)
+      {
+          printf("%d->%d\n", patient_null, i);
+      }
+    }*/
 
 
 }
