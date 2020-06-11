@@ -21,7 +21,7 @@ int dijkstra_algo(int contact[PPL][PPL], int patient_null)
     int maxtime;
     int i;
     int j;
-    int v;
+    int v=0;
     //hier kommen die Deklarierungen fuer die Werte der Matrix
     int conID;
     int pers_a;
@@ -47,42 +47,69 @@ int dijkstra_algo(int contact[PPL][PPL], int patient_null)
     {
         contmin[pers_a][pers_b]=min;
         contmin[pers_b][pers_a]=contmin[pers_a][pers_b];
-        //printf("%d | %d | %d | %d\n", conID, pers_a, pers_b, min);
+        //printf("%3d | %3d | %3d | %4d\n", conID, pers_a, pers_b, min);
 
     }
+//printf("%d",contmin[52][]);
     contact = contmin;
 
-    //printf("%d", contmin[80][40]);
     fclose(interaction);
 
-for(i=0; i<=KANTEN; i++)
+for(i=1; i<=PPL; i++) //alle nicht besuchte nodes sind auf 0 initialisiert visited[]=0
 {
     visited[i]=0;
-    mintime[i]=contmin[patient_null][i];
+    mintime[i]=0;
     //printf("%d\n", mintime[i]);
+
+    if(mintime[i]<contmin[patient_null][i])
+    {
+        v=i;
+        mintime[i]=contmin[patient_null][v];
+
+    }
 
 }
 
+printf("%d\n", v);
+printf("%d_\n", mintime[v]);
+
+//hier setze alles auf 0
 visited[patient_null]=1;
 mintime[patient_null]=0;
 //printf("%d", visited[patient_null]);
 
 
+
 //HIER DRUNTER IST IRGENDWO DER FEHLER
 
-for(int i=2; i<=KANTEN; i++)
+/*for(i=0; i<=PPL; i++)
 {
-    maxtime = SPERRE;
-
-
-    for(j=1; j<=KANTEN; j++)
+    if(mintime[patient_null]<contmin[patient_null][i])
     {
-        if(mintime[j]>maxtime && visited[j]==0)
+        //printf("\n\n%d\n\n", mintime[patient_null]);
+        mintime[patient_null]=contmin[patient_null][i];
+        //printf("%d\n", mintime[patient_null]);
+        patient_null=i;
+
+
+    }
+
+}
+
+for( i=2; i<=PPL; i++)
+{
+
+printf("%d", contmin[patient_null][i]);
+
+    for(j=1; j<=PPL; j++)
+    {
+        if(mintime[j]<contmin[patient_null][i] && visited[j]==0)
         {
-            maxtime=mintime[j];
+            contmin[patient_null][i]=mintime[j];
             v=j;
         }
         visited[v]=1;
+        printf("%d",maxtime);
 
         for(j=1; j<=KANTEN; j++)
         {
@@ -93,7 +120,7 @@ for(int i=2; i<=KANTEN; i++)
         }
     }
 }
-printf("%d", mintime[j]);
+//printf("%d", mintime[j]);
 /*printf("\nDie Uebertragung der Krankheit ueber den Personen findet wie folgt statt:\n");
 for(i=1; i<=KANTEN; i++)
 {
