@@ -14,12 +14,9 @@
 int dijkstra_algo(int contact[PPL][PPL], int patient_null)
 {
     int contmin[PPL][PPL]; //Kontaktminute zwischen zwei Personen
-    int pred[PPL];         //Vorgaenger, bei dem man zuvor war
     int mintime[PPL];      //die Minuten an Zeit bei Kontakt
     int visited[PPL];      //welche Nodes schon besucht wurden
-    int counted;           //die Zahl der Kontakte, welche bereits gecheckt wurden
-    int nextpers;
-    int maxtime;
+
     int i;
     int j;
     int v=0;
@@ -91,7 +88,7 @@ int dijkstra_algo(int contact[PPL][PPL], int patient_null)
     printf("Letzte infizierte Peron ID %d\n", v);
 
 
-
+return 0;
 }
 
 int main()
@@ -105,7 +102,6 @@ int main()
 
     dijkstra_algo(infect, erstpers);
 
-    int i,j;
 
     return 0;
 }
